@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+
+    <link th:href="@{bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{bootstrap.min.js}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 style="mx-auto">Homepage</h1>
+                    </div>
+
+                    <div class="card-body">
+                        <a th:href="@{/login}"><button class="btn btn-primary mx-auto">Log In</button></a>
+                        <a th:href="@{/signup}"><button class="btn btn-primary mx-auto">Sign Up</button></a>
+                        <div th:if="${(param.error != null)}">
+                            <p style="color:red;">Invalid credentials! Please retry.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

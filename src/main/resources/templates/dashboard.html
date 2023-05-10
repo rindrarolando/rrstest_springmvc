@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+      /* Custom styles */
+      .navbar-brand {
+        font-size: 24px;
+      }
+      .jumbotron {
+        background-color: #f5f5f5;
+      }
+      .form-control:focus {
+        border-color: #3c763d;
+        box-shadow: none;
+      }
+      .table > tbody > tr > td {
+        vertical-align: middle;
+      }
+      .btn-refresh {
+        margin-bottom: 10px;
+      }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Dashboard</a>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="jumbotron">
+    <h2>Welcome to your dashboard</h2>
+    <p>Current time: <span id="current-time"></span></p>
+    <p>Last login time: <span id="last-login-time" th:text="${lastLogin}"></span></p>
+    <a th:href="@{/logout}"><button class="btn-danger">Logout</button></a>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Add a task</h3>
+      <form method="post" action="/treat_task" id="add-task-form" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <input type="text" class="form-control"id="description" name="description" required>
+        </div>
+        <div class="form-group">
+          <label for="attachment">Add Attachment:</label>
+          <input type="file" class="form-control" id="attachment" name="attachment">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h3>All tasks</h3>
+      <a th:href="@{/dashboard}"><button type="button" class="btn btn-default btn-refresh">Refresh</button></a>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Description</th>
+          <th>Attachments</th>
+        </tr>
+        </thead>
+        <tbody id="task-list">
+          <tr th:each="task : ${tasks}">
+            <td th:text="${task.description}"></td>
+            <td>
+              <a th:href="@{/files/{filename}(filename=${task.description})}" download th:text="${task.description}+'.txt'">Download File</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+      $(document).ready(function() {
+            setInterval(function() {
+                var currentTime = new Date();
+                $("#current-time").text(currentTime.toLocaleTimeString());
+            }, 1000);
+        });
+</script>
+</body>
+</html>
